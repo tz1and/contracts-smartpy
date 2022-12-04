@@ -41,37 +41,45 @@ def test():
     scenario.verify(administrable.data.administrator == admin.address)
 
     scenario.h3("onlyAdministrator")
-    administrable.testOnlyAdmin().run(sender = bob, valid = False)
-    administrable.testOnlyAdmin().run(sender = alice, valid = False)
-    administrable.testOnlyAdmin().run(sender = admin)
+    # only valid for admin
+    for acc in [alice, bob, admin]:
+        administrable.testOnlyAdmin().run(sender = acc, valid = (True if acc is admin else False))
 
     scenario.h3("isAdministrator")
-    administrable.testIsAdmin(bob.address).run(sender = bob, valid = False)
-    administrable.testIsAdmin(bob.address).run(sender = alice, valid = False)
-    administrable.testIsAdmin(bob.address).run(sender = admin, valid = False)
-    administrable.testIsAdmin(admin.address).run(sender = alice)
-    administrable.testIsAdmin(admin.address).run(sender = bob)
-    administrable.testIsAdmin(admin.address).run(sender = admin)
+    # never valid
+    for acc in [alice, bob, admin]:
+        administrable.testIsAdmin(bob.address).run(sender = acc, valid = False)
+
+    # always valid
+    for acc in [alice, bob, admin]:
+        administrable.testIsAdmin(admin.address).run(sender = acc)
 
     scenario.h3("transfer_administrator")
-    administrable.transfer_administrator(bob.address).run(sender = bob, valid = False, exception = "ONLY_ADMIN")
-    administrable.transfer_administrator(bob.address).run(sender = alice, valid = False, exception = "ONLY_ADMIN")
-    administrable.transfer_administrator(bob.address).run(sender = admin)
-
+    # only admin can transfer admin
+    for acc in [alice, bob, admin]:
+        administrable.transfer_administrator(bob.address).run(
+            sender = acc,
+            valid = (True if acc is admin else False),
+            exception = (None if acc is admin else "ONLY_ADMIN"))
+        
     scenario.verify(administrable.data.proposed_administrator == sp.some(bob.address))
 
-    administrable.accept_administrator().run(sender = admin, valid = False, exception = "NOT_PROPOSED_ADMIN")
-    administrable.accept_administrator().run(sender = alice, valid = False, exception = "NOT_PROPOSED_ADMIN")
-    administrable.accept_administrator().run(sender = bob)
+    scenario.h3("accept_administrator")
+    # only proposed admin can accept admin
+    for acc in [alice, admin, bob]:
+        administrable.accept_administrator().run(
+            sender = acc,
+            valid = (True if acc is bob else False),
+            exception = (None if acc is bob else "NOT_PROPOSED_ADMIN"))
 
     scenario.verify(administrable.data.proposed_administrator == sp.none)
     scenario.verify(administrable.data.administrator == bob.address)
-
+    
     administrable.transfer_administrator(admin.address).run(sender = admin, valid = False, exception = "ONLY_ADMIN")
 
-    administrable.accept_administrator().run(sender = admin, valid = False, exception = "NOT_PROPOSED_ADMIN")
-    administrable.accept_administrator().run(sender = alice, valid = False, exception = "NOT_PROPOSED_ADMIN")
-    administrable.accept_administrator().run(sender = bob, valid = False, exception = "NOT_PROPOSED_ADMIN")
+    # never valid
+    for acc in [alice, bob, admin]:
+        administrable.accept_administrator().run(sender = acc, valid = False, exception = "NOT_PROPOSED_ADMIN")
 
     scenario.h3("get_administrator view")
 
