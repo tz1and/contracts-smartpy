@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "contracts-smartpy"
+name = "tezosbuilders-contracts-smartpy"
 version = "0.1.0"
 description = ""
 authors = ["852Kerfunkle <852Kerfunkle@users.noreply.github.com>"]

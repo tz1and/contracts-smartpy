@@ -1,6 +1,6 @@
 import smartpy as sp
 
-from contracts_smartpy.utils import Utils
+from tezosbuilders_contracts_smartpy.utils import Utils
 
 
 class UtilsTest(sp.Contract):

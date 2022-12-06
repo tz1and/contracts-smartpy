@@ -1,7 +1,7 @@
 import smartpy as sp
 
-from contracts_smartpy.mixins.Administrable import Administrable
-from contracts_smartpy.mixins import AdminLambda
+from tezosbuilders_contracts_smartpy.mixins.Administrable import Administrable
+from tezosbuilders_contracts_smartpy.mixins import AdminLambda
 
 
 class AdminLambdaTest(
