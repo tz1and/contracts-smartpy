@@ -1,12 +1,12 @@
 import smartpy as sp
 
-Administrable = sp.io.import_script_from_url("file:contracts/mixins/Administrable.py").Administrable
-meta_settings_mixin = sp.io.import_script_from_url("file:contracts/mixins/MetaSettings.py")
+from contracts_smartpy.mixins.Administrable import Administrable
+from contracts_smartpy.mixins import MetaSettings
 
 
 class MetaSettingsTest(
     Administrable,
-    meta_settings_mixin.MetaSettings,
+    MetaSettings.MetaSettings,
     sp.Contract):
     def __init__(self, administrator):
         self.init_storage(
@@ -22,16 +22,16 @@ class MetaSettingsTest(
         ]
 
         Administrable.__init__(self, administrator = administrator)
-        meta_settings_mixin.MetaSettings.__init__(self)
+        MetaSettings.MetaSettings.__init__(self)
 
 
 class MetaSettingsInitError(
     Administrable,
-    meta_settings_mixin.MetaSettings,
+    MetaSettings.MetaSettings,
     sp.Contract):
     def __init__(self, administrator):
         Administrable.__init__(self, administrator = administrator)
-        meta_settings_mixin.MetaSettings.__init__(self)
+        MetaSettings.MetaSettings.__init__(self)
 
 
 @sp.add_test(name = "MetaSettings_tests", profile = True)

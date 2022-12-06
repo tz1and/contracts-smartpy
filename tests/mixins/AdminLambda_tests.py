@@ -1,17 +1,17 @@
 import smartpy as sp
 
-Administrable = sp.io.import_script_from_url("file:contracts/mixins/Administrable.py").Administrable
-admin_lambda_mixin = sp.io.import_script_from_url("file:contracts/mixins/AdminLambda.py")
+from contracts_smartpy.mixins.Administrable import Administrable
+from contracts_smartpy.mixins import AdminLambda
 
 
 class AdminLambdaTest(
     Administrable,
-    admin_lambda_mixin.AdminLambda,
+    AdminLambda.AdminLambda,
     sp.Contract):
     def __init__(self, administrator):
         self.init_storage(test = sp.nat(10))
         Administrable.__init__(self, administrator = administrator)
-        admin_lambda_mixin.AdminLambda.__init__(self)
+        AdminLambda.AdminLambda.__init__(self)
 
 
 @sp.add_test(name = "AdminLambda_tests", profile = True)

@@ -1,16 +1,16 @@
 import smartpy as sp
 
-Administrable = sp.io.import_script_from_url("file:contracts/mixins/Administrable.py").Administrable
-withdraw_mutez_mixin = sp.io.import_script_from_url("file:contracts/mixins/WithdrawMutez.py")
+from contracts_smartpy.mixins.Administrable import Administrable
+from contracts_smartpy.mixins import WithdrawMutez
 
 
 class WithdrawMutezTest(
     Administrable,
-    withdraw_mutez_mixin.WithdrawMutez,
+    WithdrawMutez.WithdrawMutez,
     sp.Contract):
     def __init__(self, administrator):
         Administrable.__init__(self, administrator = administrator)
-        withdraw_mutez_mixin.WithdrawMutez.__init__(self)
+        WithdrawMutez.WithdrawMutez.__init__(self)
 
 
 @sp.add_test(name = "WithdrawMutez_tests", profile = True)

@@ -1,19 +1,19 @@
 import smartpy as sp
 
-Administrable = sp.io.import_script_from_url("file:contracts/mixins/Administrable.py").Administrable
-upgradeable_mixin = sp.io.import_script_from_url("file:contracts/mixins/Upgradeable.py")
+from contracts_smartpy.mixins.Administrable import Administrable
+from contracts_smartpy.mixins import Upgradeable
 
 
 class UpgradeableTest(
     Administrable,
-    upgradeable_mixin.Upgradeable,
+    Upgradeable.Upgradeable,
     sp.Contract):
     def __init__(self, administrator):
         self.init_storage(
             counter = sp.int(0)
         )
         Administrable.__init__(self, administrator = administrator)
-        upgradeable_mixin.Upgradeable.__init__(self)
+        Upgradeable.Upgradeable.__init__(self)
 
     @sp.entry_point(lazify = True)
     def test_entry(self, params):
