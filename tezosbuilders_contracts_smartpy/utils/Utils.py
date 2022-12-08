@@ -58,7 +58,7 @@ def validateIpfsUri(metadata_uri):
         & (sp.len(sp.set_type_expr(metadata_uri, sp.TBytes)) >= sp.nat(53)), "INVALID_METADATA")
 
 
-def allCharsInSetOfValidChars(string, valid_set):
+def allCharsInSetOfValidChars(string, valid_set, failwith="INVALID_CHAR"):
     """Verify all characters in a string are in the set of valid characters.
     
     NOTE: Assumes valid_set only contains single characters."""
@@ -66,4 +66,4 @@ def allCharsInSetOfValidChars(string, valid_set):
     valid_set = sp.set_type_expr(valid_set, sp.TSet(sp.TString))
     with sp.for_("index", sp.range(0, sp.len(string))) as index:
         with sp.if_(~valid_set.contains(sp.slice(string, index, 1).open_some(sp.unit))):
-            sp.failwith("INVALID_CHAR")
+            sp.failwith(failwith)
