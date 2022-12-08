@@ -10,9 +10,9 @@ class PausableTest(
     Pausable.Pausable,
     sp.Contract):
     def __init__(self, administrator):
+        sp.Contract.__init__(self)
         Administrable.__init__(self, administrator = administrator)
         Pausable.Pausable.__init__(self)
-        sp.Contract.__init__(self)
 
     @sp.entry_point
     def testOnlyPaused(self):

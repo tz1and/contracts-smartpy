@@ -9,10 +9,10 @@ class AdminLambdaTest(
     AdminLambda.AdminLambda,
     sp.Contract):
     def __init__(self, administrator):
+        sp.Contract.__init__(self)
         self.init_storage(test = sp.nat(10))
         Administrable.__init__(self, administrator = administrator)
         AdminLambda.AdminLambda.__init__(self)
-        sp.Contract.__init__(self)
 
 
 @sp.add_test(name = "AdminLambda_tests", profile = True)

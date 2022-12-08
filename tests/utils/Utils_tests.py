@@ -5,8 +5,8 @@ from tezosbuilders_contracts_smartpy.utils import Utils
 
 class UtilsTest(sp.Contract):
     def __init__(self):
-        self.init_storage()
         sp.Contract.__init__(self)
+        self.init_storage()
 
     @sp.entry_point
     def testIsContract(self, address, expected):

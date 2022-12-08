@@ -9,6 +9,8 @@ class MetaSettingsTest(
     MetaSettings.MetaSettings,
     sp.Contract):
     def __init__(self, administrator):
+        sp.Contract.__init__(self)
+
         self.init_storage(
             test_validate = sp.nat(0),
             test_nat = sp.nat(0),
@@ -23,7 +25,6 @@ class MetaSettingsTest(
 
         Administrable.__init__(self, administrator = administrator)
         MetaSettings.MetaSettings.__init__(self)
-        sp.Contract.__init__(self)
 
 
 class MetaSettingsInitError(
@@ -31,9 +32,9 @@ class MetaSettingsInitError(
     MetaSettings.MetaSettings,
     sp.Contract):
     def __init__(self, administrator):
+        sp.Contract.__init__(self)
         Administrable.__init__(self, administrator = administrator)
         MetaSettings.MetaSettings.__init__(self)
-        sp.Contract.__init__(self)
 
 
 @sp.add_test(name = "MetaSettings_tests", profile = True)

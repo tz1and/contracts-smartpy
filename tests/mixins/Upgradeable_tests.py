@@ -9,12 +9,12 @@ class UpgradeableTest(
     Upgradeable.Upgradeable,
     sp.Contract):
     def __init__(self, administrator):
+        sp.Contract.__init__(self)
         self.init_storage(
             counter = sp.int(0)
         )
         Administrable.__init__(self, administrator = administrator)
         Upgradeable.Upgradeable.__init__(self)
-        sp.Contract.__init__(self)
 
     @sp.entry_point(lazify = True)
     def test_entry(self, params):
