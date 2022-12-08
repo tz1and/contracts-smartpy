@@ -6,9 +6,9 @@ from tezosbuilders_contracts_smartpy.tzbrc import SupportedInterfaces
 class SupportedInterfacesTest(
     SupportedInterfaces.SupportedInterfaces,
     sp.Contract):
-    def __init__(self, supported_interaces):
+    def __init__(self, supported_interaces, interface_storage):
         sp.Contract.__init__(self)
-        SupportedInterfaces.SupportedInterfaces.__init__(self, supported_interaces)
+        SupportedInterfaces.SupportedInterfaces.__init__(self, supported_interaces, interface_storage)
 
 
 @sp.add_test(name = "SupportedInterfaces_tests", profile = True)
@@ -33,15 +33,22 @@ def test():
         sp.pair("VIP", sp.nat(1337))]
     )
 
-    scenario.h3("Contract origination")
-    supported_interaces = SupportedInterfacesTest(test_interfaces)
-    scenario += supported_interaces
+    storage_levels = [
+        SupportedInterfaces.StorageLevel.BigMap,
+        SupportedInterfaces.StorageLevel.TopLevel,
+        SupportedInterfaces.StorageLevel.Inline
+    ]
 
-    #
-    # view: supported_interfaces
-    #
-    scenario.h3("view: supported_interfaces")
+    for storage_level in storage_levels:
+        scenario.h3(f"With {storage_level}")
+        supported_interfaces = SupportedInterfacesTest(test_interfaces, storage_level)
+        scenario += supported_interfaces
 
-    res = scenario.compute(supported_interaces.supported_interfaces())
-    scenario.show(res)
-    scenario.verify_equal(res, test_interfaces)
+        #
+        # view: supported_interfaces
+        #
+        scenario.h4("view: supported_interfaces")
+
+        res = scenario.compute(supported_interfaces.supported_interfaces())
+        scenario.show(res)
+        scenario.verify_equal(res, test_interfaces)
