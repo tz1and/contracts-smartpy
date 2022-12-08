@@ -2,6 +2,7 @@
 name = "tezosbuilders-contracts-smartpy"
 version = "0.1.0"
 description = ""
+license = "MIT"
 authors = ["852Kerfunkle <852Kerfunkle@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]

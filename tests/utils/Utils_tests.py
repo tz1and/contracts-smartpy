@@ -33,6 +33,10 @@ class UtilsTest(sp.Contract):
     def testIsPowerOfTwoMinusOne(self, value, expected):
         sp.verify(Utils.isPowerOfTwoMinusOne(value) == expected)
 
+    @sp.entry_point
+    def testAllCharsInSetOfValidChars(self, string, valid_set):
+        Utils.allCharsInSetOfValidChars(string, valid_set)
+
 
 @sp.add_test(name = "Utils_tests", profile = True)
 def test():
@@ -108,5 +112,17 @@ def test():
     
     for x in [3, 7, 63, 127, 1048575]:
         utils.testIsPowerOfTwoMinusOne(value=sp.nat(x), expected=True).run(sender=admin)
+
+    scenario.h3("allCharsInSetOfValidChars")
+
+    valid_set = sp.set(["A", "B", "C", "D", "E", "1", "2", "3"])
+    valid_strings = ["ABC121", "BAC21", "12312131231212"]
+    invalid_strings = ["invalid", "bLa", "12345", "ABCDEF"]
+
+    for x in valid_strings:
+        utils.testAllCharsInSetOfValidChars(string=x, valid_set=valid_set).run(sender=admin)
+
+    for x in invalid_strings:
+        utils.testAllCharsInSetOfValidChars(string=x, valid_set=valid_set).run(sender=admin, valid=False, exception="INVALID_CHAR")
 
     # TODO: sendIfValue
