@@ -14,6 +14,7 @@ class UpgradeableTest(
         )
         Administrable.__init__(self, administrator = administrator)
         Upgradeable.Upgradeable.__init__(self)
+        sp.Contract.__init__(self)
 
     @sp.entry_point(lazify = True)
     def test_entry(self, params):

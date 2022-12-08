@@ -12,6 +12,7 @@ class ContractMetadataTest(
     def __init__(self, administrator, metadata):
         Administrable.__init__(self, administrator = administrator)
         ContractMetadata.ContractMetadata.__init__(self, metadata = metadata)
+        sp.Contract.__init__(self)
 
 
 class ContractMetadataTestMetaSettings(

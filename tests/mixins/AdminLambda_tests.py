@@ -12,6 +12,7 @@ class AdminLambdaTest(
         self.init_storage(test = sp.nat(10))
         Administrable.__init__(self, administrator = administrator)
         AdminLambda.AdminLambda.__init__(self)
+        sp.Contract.__init__(self)
 
 
 @sp.add_test(name = "AdminLambda_tests", profile = True)
@@ -32,6 +33,7 @@ def test():
 
     scenario.h3("Contract origination")
     admin_lambda = AdminLambdaTest(admin.address)
+    admin_lambda.set_initial_balance(sp.tez(10000))
     scenario += admin_lambda
 
     #
@@ -39,13 +41,13 @@ def test():
     #
     scenario.h3("run_lambda")
 
-    def update_storage(self, params):
+    def update_storage(contract_self, params):
         sp.set_type(params, sp.TUnit)
-        self.data.test = sp.nat(20)
-        sp.send(admin.address, sp.tez(10))
+        contract_self.data.test = sp.nat(20)
+        sp.send(contract_self.data.administrator, sp.tez(10))
         sp.result([])
 
-    update_storage_lambda = sp.build_lambda(update_storage, with_storage="read-write", with_operations=True)
+    update_storage_lambda = sp.build_lambda(update_storage, with_storage="read-write", with_operations=True, tstorage=admin_lambda.storage_type)
     scenario.show(update_storage_lambda)
 
     # No permission for anyone but admin

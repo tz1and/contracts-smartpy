@@ -6,6 +6,7 @@ from tezosbuilders_contracts_smartpy.mixins import Administrable
 class AdministrableTest(Administrable.Administrable, sp.Contract):
     def __init__(self, administrator):
         Administrable.Administrable.__init__(self, administrator = administrator)
+        sp.Contract.__init__(self)
 
     @sp.entry_point
     def testOnlyAdmin(self):

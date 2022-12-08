@@ -11,6 +11,7 @@ class WithdrawMutezTest(
     def __init__(self, administrator):
         Administrable.__init__(self, administrator = administrator)
         WithdrawMutez.WithdrawMutez.__init__(self)
+        sp.Contract.__init__(self)
 
 
 @sp.add_test(name = "WithdrawMutez_tests", profile = True)
