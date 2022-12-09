@@ -8,11 +8,13 @@ class Upgradeable:
     """IMPORTANT: Must be initialised after any mixins that add lazy
     entrypoints, in order to work correctly."""
     def __init__(self):
+        default_lazy = ["lazy-entry-points"] in self.flags
+
         # get lazy entry points
         self.upgradeable_entrypoints = []
         for f in dir(self):
             attr = getattr(self, f)
-            if isinstance(attr, sp.Entrypoint) and attr.message.lazify == True:
+            if isinstance(attr, sp.Entrypoint) and (attr.message.lazify == True or (attr.message.lazify == None and default_lazy)):
                 self.upgradeable_entrypoints.append(attr.message.fname)
 
         # if there are any, add the update ep
