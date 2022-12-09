@@ -57,8 +57,8 @@ def test():
     scenario.verify(upgrade.data.counter == sp.int(4))
 
     # update
-    upgrade_test_entry = sp.record(ep_name = sp.variant('test_entry', sp.unit), new_code = sp.utils.wrap_entry_point("test_entry", test_entry_update))
-    upgrade_another_entry = sp.record(ep_name = sp.variant('another_entry', sp.unit), new_code = sp.utils.wrap_entry_point("another_entry", another_entry_update))
+    upgrade_test_entry = sp.record(id = sp.contract_entrypoint_id(upgrade, "test_entry"), new_code = sp.utils.wrap_entry_point("test_entry", test_entry_update))
+    upgrade_another_entry = sp.record(id = sp.contract_entrypoint_id(upgrade, "another_entry"), new_code = sp.utils.wrap_entry_point("another_entry", another_entry_update))
 
     upgrade.update_ep(upgrade_test_entry).run(sender = alice, valid = False, exception = "ONLY_ADMIN")
     upgrade.update_ep(upgrade_another_entry).run(sender = alice, valid = False, exception = "ONLY_ADMIN")

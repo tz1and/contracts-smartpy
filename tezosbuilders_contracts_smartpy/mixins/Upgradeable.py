@@ -21,16 +21,10 @@ class Upgradeable:
         if self.upgradeable_entrypoints:
             #print(f'{self.__class__.__name__}: {self.upgradeable_entrypoints}')
             def update_ep(self, params):
-                # Build a variant from upgradeable_entrypoints.
-                sp.set_type(params.ep_name, sp.TVariant(
-                    **{entrypoint: sp.TUnit for entrypoint in self.upgradeable_entrypoints}))
+                sp.set_type(params.id, sp.TNat)
                 self.onlyAdministrator()
 
-                # Build a matcher for upgradeable_entrypoints
-                with params.ep_name.match_cases() as arg:
-                    for entrypoint in self.upgradeable_entrypoints:
-                        with arg.match(entrypoint):
-                            sp.set_entry_point(entrypoint, params.new_code)
+                sp.entrypoint_map()[params.id] = params.new_code
 
             self.update_ep = sp.entry_point(update_ep, lazify=False)
         else: print(f"\x1b[33;20mWARNING: Upgradeable used in {self.__class__.__name__} but upgradeable_entrypoints is empty!\x1b[0m")
