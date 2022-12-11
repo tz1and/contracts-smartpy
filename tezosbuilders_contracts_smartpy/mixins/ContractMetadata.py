@@ -29,8 +29,7 @@ class ContractMetadata:
         else:
             def set_metadata(self, metadata):
                 """(Admin only) Set the contract metadata."""
-                sp.set_type(metadata, sp.TBigMap(sp.TString, sp.TBytes))
                 self.onlyAdministrator()
                 self.data.metadata = metadata
             
-            self.set_metadata = sp.entry_point(set_metadata)
+            self.set_metadata = sp.entry_point(set_metadata, parameter_type=sp.TBigMap(sp.TString, sp.TBytes))

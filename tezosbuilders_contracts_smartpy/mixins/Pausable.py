@@ -5,7 +5,7 @@ import smartpy as sp
 class Pausable:
     def __init__(self, paused = False, include_views = True):
         self.update_initial_storage(
-            paused = paused
+            paused = sp.set_type_expr(paused, sp.TBool)
         )
 
         if hasattr(self, 'available_settings'):
@@ -17,7 +17,7 @@ class Pausable:
                 self.onlyAdministrator()
                 self.data.paused = new_paused
             
-            self.set_paused = sp.entry_point(set_paused)
+            self.set_paused = sp.entry_point(set_paused, parameter_type=sp.TBool)
 
         if include_views:
             def is_paused(self):

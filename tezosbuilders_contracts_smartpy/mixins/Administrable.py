@@ -4,8 +4,8 @@ import smartpy as sp
 class Administrable:
     def __init__(self, administrator, include_views = True):
         self.update_initial_storage(
-            administrator = administrator,
-            proposed_administrator = sp.none
+            administrator = sp.set_type_expr(administrator, sp.TAddress),
+            proposed_administrator = sp.set_type_expr(sp.none, sp.TOption(sp.TAddress))
         )
 
         if include_views:
@@ -23,17 +23,16 @@ class Administrable:
     def onlyAdministrator(self):
         sp.verify(self.isAdministrator(sp.sender), 'ONLY_ADMIN')
 
-    @sp.entry_point
+    @sp.entry_point(parameter_type=sp.TAddress)
     def transfer_administrator(self, proposed_administrator):
         """Proposes to transfer the contract administrator to another address.
         """
-        sp.set_type(proposed_administrator, sp.TAddress)
         self.onlyAdministrator()
 
         # Set the new proposed administrator address
         self.data.proposed_administrator = sp.some(proposed_administrator)
 
-    @sp.entry_point
+    @sp.entry_point(parameter_type=sp.TUnit)
     def accept_administrator(self):
         """The proposed administrator accepts the contract administrator
         responsabilities.
