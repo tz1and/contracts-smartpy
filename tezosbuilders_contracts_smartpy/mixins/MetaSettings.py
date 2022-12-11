@@ -9,9 +9,9 @@ class MetaSettings:
         if not hasattr(self, 'available_settings'):
             raise Exception(f"ERROR: MetaSettings.available_settings not set in {self.__class__.__name__}!")
 
-        t_update_settings_params = sp.TList(sp.TVariant(**{setting[0]: setting[1] for setting in self.available_settings}))
-
         if self.available_settings:
+            t_update_settings_params = sp.TList(sp.TVariant(**{setting[0]: setting[1] for setting in self.available_settings}))
+
             def update_settings(self, params):
                 """Allows the administrator to update various settings.
                 
