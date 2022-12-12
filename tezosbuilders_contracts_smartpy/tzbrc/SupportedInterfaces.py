@@ -10,7 +10,6 @@ class StorageLevel(Enum):
     TopLevel = 2
     Inline = 3
 
-# Required mixins: Administrable
 class SupportedInterfaces:
     def __init__(self, supported_interfaces_set, interface_storage = StorageLevel.Inline):
         self.interface_storage = interface_storage
