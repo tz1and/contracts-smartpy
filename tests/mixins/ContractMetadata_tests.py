@@ -1,8 +1,8 @@
 import smartpy as sp
 
-from tezosbuilders_contracts_smartpy.mixins.Administrable import Administrable
-from tezosbuilders_contracts_smartpy.mixins.MetaSettings import MetaSettings
-from tezosbuilders_contracts_smartpy.mixins import ContractMetadata
+from tz1and_contracts_smartpy.mixins.Administrable import Administrable
+from tz1and_contracts_smartpy.mixins.MetaSettings import MetaSettings
+from tz1and_contracts_smartpy.mixins import ContractMetadata
 
 
 class ContractMetadataTest(

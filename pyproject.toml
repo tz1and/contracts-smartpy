@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "tezosbuilders-contracts-smartpy"
+name = "tz1and-contracts-smartpy"
 version = "0.1.0"
 description = ""
 license = "MIT"

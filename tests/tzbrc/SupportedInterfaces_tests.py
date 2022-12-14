@@ -1,6 +1,6 @@
 import smartpy as sp
 
-from tezosbuilders_contracts_smartpy.tzbrc import SupportedInterfaces
+from tz1and_contracts_smartpy.tzbrc import SupportedInterfaces
 
 
 class SupportedInterfacesTest(

@@ -1,6 +1,6 @@
 import smartpy as sp
 
-from tezosbuilders_contracts_smartpy.mixins import Administrable
+from tz1and_contracts_smartpy.mixins import Administrable
 
 
 class AdministrableTest(Administrable.Administrable, sp.Contract):
