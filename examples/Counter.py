@@ -39,7 +39,8 @@ class Counter(
         # Settings take a name (the variable name in storage), the default value,
         # the type and an optional lambda for validation (can be None).
         #
-        # The settings storage don't need to be added to storage manually.
+        # The settings added through MetaSettings don't need to be added to
+        # storage manually.
         self.addMetaSettings([
             ("increment", 1, sp.TNat, lambda x : sp.verify(x >= sp.nat(1)))
         ])
