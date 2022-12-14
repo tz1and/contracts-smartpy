@@ -17,11 +17,11 @@ class MetaSettingsTest(
             test_address = administrator
         )
 
-        self.available_settings = [
+        self.addMetaSettings([
             ("test_validate", sp.TNat, lambda x: sp.failwith("ERROR")),
             ("test_nat", sp.TNat, None),
             ("test_address", sp.TAddress, None),
-        ]
+        ])
 
         Administrable.__init__(self, administrator = administrator)
         MetaSettings.MetaSettings.__init__(self)

@@ -1,3 +1,4 @@
+from typing import Any, List, Tuple, Callable
 import smartpy as sp
 
 
@@ -6,9 +7,6 @@ class MetaSettings:
     """IMPORTANT: Must be initialised after all eps using meta settings but
     before Upgradeable, in order to work correctly."""
     def __init__(self, lazy_ep = True):
-        if not hasattr(self, 'available_settings'):
-            raise Exception(f"ERROR: MetaSettings.available_settings not set in {self.__class__.__name__}!")
-
         if self.available_settings:
             t_update_settings_params = sp.TList(sp.TVariant(**{setting[0]: setting[1] for setting in self.available_settings}))
 
@@ -28,3 +26,9 @@ class MetaSettings:
 
             self.update_settings = sp.entry_point(update_settings, lazify=lazy_ep, parameter_type=t_update_settings_params)
         else: print(f"\x1b[33;20mWARNING: MetaSettings used in {self.__class__.__name__} but available_settings is empty!\x1b[0m")
+
+    def addMetaSettings(self, settings: List[Tuple[str, sp.Expr, None | Callable[[sp.Expr], sp.Expr]]]):
+        """Add one of more settings in form of a list of tuples."""
+        if hasattr(self, 'available_settings'):
+            self.available_settings.extend(settings)
+        else: self.available_settings = settings

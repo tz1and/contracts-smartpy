@@ -33,8 +33,6 @@ class PausableTestMetaSettings(
     PausableTest,
     MetaSettings):
     def __init__(self, administrator):
-        self.available_settings = []
-
         PausableTest.__init__(self, administrator = administrator)
         MetaSettings.__init__(self)
 

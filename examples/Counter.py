@@ -40,11 +40,10 @@ class Counter(
         # Settings take a name (the variable name in storage), a type (the type
         # in storage) and an optional lambda for validation (can be None).
         #
-        # If MetaSettings is used, available settings must at at least be
-        # initialised as an empty array.
-        self.available_settings = [
+        # The settings storage must be added manually, currently.
+        self.addMetaSettings([
             ("increment", sp.TNat, lambda x : sp.verify(x >= sp.nat(1)))
-        ]
+        ])
 
         # Now we initialise the mixins. Order matters for some!
         Administrable.__init__(self, admin)

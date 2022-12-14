@@ -19,8 +19,6 @@ class ContractMetadataTestMetaSettings(
     ContractMetadataTest,
     MetaSettings):
     def __init__(self, administrator, metadata):
-        self.available_settings = []
-
         ContractMetadataTest.__init__(self, administrator = administrator, metadata = metadata)
         MetaSettings.__init__(self)
 

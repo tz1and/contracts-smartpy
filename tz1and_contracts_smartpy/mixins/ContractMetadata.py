@@ -22,10 +22,10 @@ class ContractMetadata:
             metadata = sp.set_type_expr(metadata, sp.TBigMap(sp.TString, sp.TBytes))
         )
 
-        if hasattr(self, 'available_settings'):
-            self.available_settings.append(
+        if hasattr(self, 'addMetaSettings'):
+            self.addMetaSettings([
                 ("metadata", sp.TBigMap(sp.TString, sp.TBytes), None)
-            )
+            ])
         else:
             def set_metadata(self, metadata):
                 """(Admin only) Set the contract metadata."""

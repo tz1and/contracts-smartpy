@@ -8,10 +8,10 @@ class Pausable:
             paused = sp.set_type_expr(paused, sp.TBool)
         )
 
-        if hasattr(self, 'available_settings'):
-            self.available_settings.append(
+        if hasattr(self, 'addMetaSettings'):
+            self.addMetaSettings([
                 ("paused", sp.TBool, None)
-            )
+            ])
         else:
             def set_paused(self, new_paused):
                 self.onlyAdministrator()
