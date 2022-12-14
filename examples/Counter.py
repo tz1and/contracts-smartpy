@@ -56,7 +56,7 @@ class Counter(
         Upgradeable.__init__(self)
 
         # TODO: You should probably also generate some contract metadata here.
-        # (I'll add this to the ContractMetadata eventually).
+        # (I'll add this to the ContractMetadata mixin eventually).
 
     # Now, our glorious, metasetting using, pausable, upgradeable increment ep!
     @sp.entry_point(lazify=True, parameter_type=sp.TUnit)
