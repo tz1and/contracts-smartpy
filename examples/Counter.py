@@ -27,7 +27,7 @@ class Counter(
     Upgradeable
 ):
     def __init__(self, admin):
-        # The order how mixins are inited matters. Frist, sp.Contract.
+        # The order how things are inited matters. Frist, sp.Contract.
         sp.Contract.__init__(self)
 
         # Let's add our counter and some settings.
