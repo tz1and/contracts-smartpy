@@ -67,7 +67,7 @@ class Counter(
         # This will fail the operation if the contract is paused.
         self.onlyUnpaused()
 
-        # Add increment from to counter.
+        # Add increment to counter.
         self.data.counter += self.data.increment
 
         # All done! ^.~
