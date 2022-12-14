@@ -11,16 +11,12 @@ class MetaSettingsTest(
     def __init__(self, administrator):
         sp.Contract.__init__(self)
 
-        self.init_storage(
-            test_validate = sp.nat(0),
-            test_nat = sp.nat(0),
-            test_address = administrator
-        )
+        self.init_storage()
 
         self.addMetaSettings([
-            ("test_validate", sp.TNat, lambda x: sp.failwith("ERROR")),
-            ("test_nat", sp.TNat, None),
-            ("test_address", sp.TAddress, None),
+            ("test_validate", 0, sp.TNat, lambda x: sp.failwith("ERROR")),
+            ("test_nat", 0, sp.TNat, None),
+            ("test_address", administrator, sp.TAddress, None),
         ])
 
         Administrable.__init__(self, administrator = administrator)

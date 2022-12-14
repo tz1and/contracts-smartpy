@@ -18,15 +18,15 @@ class ContractMetadata:
     Requires the `Administrable` mixin.
     """
     def __init__(self, metadata):
-        self.update_initial_storage(
-            metadata = sp.set_type_expr(metadata, sp.TBigMap(sp.TString, sp.TBytes))
-        )
-
         if hasattr(self, 'addMetaSettings'):
             self.addMetaSettings([
-                ("metadata", sp.TBigMap(sp.TString, sp.TBytes), None)
+                ("metadata", metadata, sp.TBigMap(sp.TString, sp.TBytes), None)
             ])
         else:
+            self.update_initial_storage(
+                metadata = sp.set_type_expr(metadata, sp.TBigMap(sp.TString, sp.TBytes))
+            )
+
             def set_metadata(self, metadata):
                 """(Admin only) Set the contract metadata."""
                 self.onlyAdministrator()

@@ -8,7 +8,12 @@ class MetaSettings:
     before Upgradeable, in order to work correctly."""
     def __init__(self, lazy_ep = True):
         if self._available_settings:
-            t_update_settings_params = sp.TList(sp.TVariant(**{setting[0]: setting[1] for setting in self._available_settings}))
+            t_update_settings_params = sp.TList(sp.TVariant(**{setting[0]: setting[2] for setting in self._available_settings}))
+
+            self.update_initial_storage(
+                #_settings = sp.record(**{setting[0]: sp.set_type_expr(setting[1], setting[2]) for setting in self._available_settings})
+                **{setting[0]: sp.set_type_expr(setting[1], setting[2]) for setting in self._available_settings}
+            )
 
             def update_settings(self, params):
                 """Allows the administrator to update various settings.
@@ -20,15 +25,17 @@ class MetaSettings:
                     with update.match_cases() as arg:
                         for setting in self._available_settings:
                             with arg.match(setting[0]) as value:
-                                if setting[2] != None:
-                                    setting[2](value)
+                                if setting[3] != None:
+                                    setting[3](value)
+                                #setattr(self.data._settings, setting[0], value)
                                 setattr(self.data, setting[0], value)
 
             self.update_settings = sp.entry_point(update_settings, lazify=lazy_ep, parameter_type=t_update_settings_params)
         else: print(f"\x1b[33;20mWARNING: MetaSettings used in {self.__class__.__name__} but _available_settings is empty!\x1b[0m")
 
-    def addMetaSettings(self, settings: List[Tuple[str, sp.Expr, None | Callable[[sp.Expr], sp.Expr]]]):
-        """Add one of more settings in form of a list of tuples."""
+    def addMetaSettings(self, settings: List[Tuple[str, sp.Expr, sp.Expr, None | Callable[[sp.Expr], sp.Expr]]]):
+        """Add one of more settings in form of a list of tuples of:
+        (setting_name, default, type, validation_lambda)."""
         if hasattr(self, '_available_settings'):
             self._available_settings.extend(settings)
         else: self._available_settings = settings

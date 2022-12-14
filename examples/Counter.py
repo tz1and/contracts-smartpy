@@ -32,17 +32,16 @@ class Counter(
 
         # Let's add our counter and some settings.
         self.init_storage(
-            counter = sp.nat(0),
-            increment = sp.nat(1)
+            counter = sp.nat(0)
         )
 
         # We can add more settings to the MetaSettings mixin.
-        # Settings take a name (the variable name in storage), a type (the type
-        # in storage) and an optional lambda for validation (can be None).
+        # Settings take a name (the variable name in storage), the default value,
+        # the type and an optional lambda for validation (can be None).
         #
-        # The settings storage must be added manually, currently. See above.
+        # The settings storage don't need to be added to storage manually.
         self.addMetaSettings([
-            ("increment", sp.TNat, lambda x : sp.verify(x >= sp.nat(1)))
+            ("increment", 1, sp.TNat, lambda x : sp.verify(x >= sp.nat(1)))
         ])
 
         # Now we initialise the mixins. Order matters for some!
