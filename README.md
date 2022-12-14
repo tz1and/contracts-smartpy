@@ -10,6 +10,10 @@ source .venv/bin/activate
 PYTHONPATH="./" path/to/SmartPy.sh test tests/utils/Utils_tests.py test_output/ --html
 ```
 
+Or edit `test.sh` and change `SMARTPY_CLI` to point to your SmartPy installation and run it.
+
+For an example/tutorial, see `examples/Counter.py`.
+
 ## Contributors
 
 | Contributor | Gratuity |
