@@ -19,8 +19,12 @@ class MetaSettingsTest(
             ("test_address", administrator, sp.TAddress, None),
         ])
 
+        self.addMetaSettings([
+            ("test_top_level", 0, sp.TNat, None)
+        ], True)
+
         Administrable.__init__(self, administrator = administrator)
-        MetaSettings.MetaSettings.__init__(self)
+        MetaSettings.MetaSettings.__init__(self, include_views=True)
 
 
 class MetaSettingsInitError(
@@ -54,8 +58,10 @@ def test():
     scenario += meta_settings
 
     # TODO: Check default
-    scenario.verify(meta_settings.data.test_nat == sp.nat(0))
-    scenario.verify(meta_settings.data.test_address == admin.address)
+    scenario.verify(meta_settings.data.settings.test_validate == sp.nat(0))
+    scenario.verify(meta_settings.data.settings.test_nat == sp.nat(0))
+    scenario.verify(meta_settings.data.settings.test_address == admin.address)
+    scenario.verify(meta_settings.data.test_top_level == sp.nat(0))
 
     #
     # update_fees
@@ -76,16 +82,31 @@ def test():
             valid=(True if acc is admin else False),
             exception=(None if acc is admin else "ONLY_ADMIN"))
 
-        if acc is admin: scenario.verify(meta_settings.data.test_nat == sp.nat(10))
+        if acc is admin: scenario.verify(meta_settings.data.settings.test_nat == sp.nat(10))
 
-    # test_nat - No permission for anyone but admin
+    # test_address - No permission for anyone but admin
     for acc in [alice, bob, admin]:
         meta_settings.update_settings([sp.variant("test_address", alice.address)]).run(
             sender=acc,
             valid=(True if acc is admin else False),
             exception=(None if acc is admin else "ONLY_ADMIN"))
 
-        if acc is admin: scenario.verify(meta_settings.data.test_address == alice.address)
+        if acc is admin: scenario.verify(meta_settings.data.settings.test_address == alice.address)
+
+    # test_top_level - No permission for anyone but admin
+    for acc in [alice, bob, admin]:
+        meta_settings.update_settings([sp.variant("test_top_level", sp.nat(1337))]).run(
+            sender=acc,
+            valid=(True if acc is admin else False),
+            exception=(None if acc is admin else "ONLY_ADMIN"))
+
+        if acc is admin: scenario.verify(meta_settings.data.test_top_level == sp.nat(1337))
+
+    scenario.h3("view: get_settings")
+
+    view_res = scenario.compute(meta_settings.get_settings())
+    scenario.show(view_res)
+    scenario.verify_equal(view_res, meta_settings.data.settings)
 
     scenario.h2("Test MetaSettings - InitError")
 
@@ -94,6 +115,6 @@ def test():
     try:
         meta_settings_init_error = MetaSettingsInitError(admin.address)
         scenario += meta_settings_init_error
-        scenario.verify(False)
+        scenario.verify(sp.bool(False))
     except Exception:
         scenario.show("Passed")

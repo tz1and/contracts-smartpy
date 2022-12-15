@@ -57,7 +57,7 @@ def test():
     pausable = PausableTest(admin.address)
     scenario += pausable
 
-    scenario.verify(pausable.data.paused == False)
+    scenario.verify(pausable.data.settings.paused == False)
 
     scenario.h3("set_paused")
 
@@ -68,10 +68,10 @@ def test():
             valid = (True if acc is admin else False),
             exception = (None if acc is admin else "ONLY_ADMIN"))
 
-        if acc is admin: scenario.verify(pausable.data.paused == True)
+        if acc is admin: scenario.verify(pausable.data.settings.paused == True)
 
     pausable.set_paused(False).run(sender = admin)
-    scenario.verify(pausable.data.paused == False)
+    scenario.verify(pausable.data.settings.paused == False)
 
     scenario.h3("testOnlyUnpaused")
 
@@ -110,7 +110,7 @@ def test():
     pausable_meta = PausableTestMetaSettings(admin.address)
     scenario += pausable_meta
 
-    scenario.verify(pausable_meta.data.paused == False)
+    scenario.verify(pausable_meta.data.settings.paused == False)
 
     scenario.h3("update_settings")
 
@@ -121,4 +121,4 @@ def test():
             valid = (True if acc is admin else False),
             exception = (None if acc is admin else "ONLY_ADMIN"))
 
-        if acc is admin: scenario.verify(pausable_meta.data.paused == True)
+        if acc is admin: scenario.verify(pausable_meta.data.settings.paused == True)

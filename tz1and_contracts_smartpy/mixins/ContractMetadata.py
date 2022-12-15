@@ -1,5 +1,7 @@
 import smartpy as sp
 
+from tz1and_contracts_smartpy.mixins.MetaSettings import MetaSettings
+
 
 def contractSetMetadata(contract, metadata_uri):
     """ContractMetadata set_metadata."""
@@ -18,10 +20,11 @@ class ContractMetadata:
     Requires the `Administrable` mixin.
     """
     def __init__(self, metadata):
-        if hasattr(self, 'addMetaSettings'):
+        # Add metadata as top-level element, according to the tzip specs.
+        if isinstance(self, MetaSettings):
             self.addMetaSettings([
                 ("metadata", metadata, sp.TBigMap(sp.TString, sp.TBytes), None)
-            ])
+            ], True)
         else:
             self.update_initial_storage(
                 metadata = sp.set_type_expr(metadata, sp.TBigMap(sp.TString, sp.TBytes))

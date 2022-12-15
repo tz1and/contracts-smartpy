@@ -25,7 +25,7 @@ def test():
 
     # Verify the defaults.
     scenario.verify(counter.data.counter == sp.nat(0))
-    scenario.verify(counter.data.increment == sp.nat(1))
+    scenario.verify(counter.data.settings.increment == sp.nat(1))
 
     scenario.h3("update_settings")
 

@@ -30,7 +30,7 @@ class Counter(
         # The order how things are inited matters. Frist, sp.Contract.
         sp.Contract.__init__(self)
 
-        # Let's add our counter and some settings.
+        # Let's add our counter to storage.
         self.init_storage(
             counter = sp.nat(0)
         )
@@ -67,7 +67,7 @@ class Counter(
         self.onlyUnpaused()
 
         # Add increment to counter.
-        self.data.counter += self.data.increment
+        self.data.counter += self.data.settings.increment
 
         # All done! ^.~
         # Look at the tests as well!
