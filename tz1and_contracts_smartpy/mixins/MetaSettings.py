@@ -36,6 +36,12 @@ class MetaSettings:
             Parameters are metaprogrammed with self.addMetaSettings"""
             self.onlyAdministrator()
 
+            # If grouped settings exist, make a local copy.
+            # This results in fewer ops.
+            if self._available_settings:
+                settings_local = sp.local("settings_local", self.data.settings)
+            
+            # Update settings.
             with sp.for_("update", params) as update:
                 with update.match_cases() as arg:
                     for setting in joined_settings:
@@ -43,9 +49,13 @@ class MetaSettings:
                             if setting[3] != None:
                                 setting[3](value)
                             if setting in self._available_settings:
-                                setattr(self.data.settings, setting[0], value)
+                                setattr(settings_local.value, setting[0], value)
                             else:
                                 setattr(self.data, setting[0], value)
+
+            # If grouped settings exist, write back the local copy.
+            if self._available_settings:
+                self.data.settings = settings_local.value
         self.update_settings = sp.entry_point(update_settings, lazify=lazy_ep, parameter_type=t_update_settings_params)
 
         # Add get_settings view if top-level settings exist

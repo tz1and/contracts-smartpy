@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tz1and-contracts-smartpy"
-version = "0.2.1"
+version = "0.2.2"
 description = ""
 license = "MIT"
 authors = ["852Kerfunkle <852Kerfunkle@users.noreply.github.com>"]
