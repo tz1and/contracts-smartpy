@@ -1,6 +1,7 @@
 import smartpy as sp
 
 from tz1and_contracts_smartpy.mixins.Administrable import Administrable
+from tz1and_contracts_smartpy.mixins.ContractMetadata import ContractMetadata
 from tz1and_contracts_smartpy.mixins.MetaSettings import MetaSettings
 from tz1and_contracts_smartpy.mixins.Pausable import Pausable
 from tz1and_contracts_smartpy.mixins.Upgradeable import Upgradeable
@@ -16,6 +17,10 @@ class Counter(
     # as well as related entrypoints and some functions to check the owner.
     # Most other mixins require it.
     Administrable,
+    # ContractMetadata adds standard compliant contract metadata to the
+    # contract and provides and interface for updating it - either and entry
+    # point or through MetaSettings, if used.
+    ContractMetadata,
     # Pausable adds a paused state. You need to check it with the isPaused,
     # onlyUnpaused or onlyPaused functions it adds.
     Pausable,
@@ -26,7 +31,7 @@ class Counter(
     # Upgradeable automatically adds an entrypoint to upgrade lazy entrypoints.
     Upgradeable
 ):
-    def __init__(self, admin):
+    def __init__(self, admin, metadata):
         # The order how things are inited matters. Frist, sp.Contract.
         sp.Contract.__init__(self)
 
@@ -47,6 +52,12 @@ class Counter(
 
         # Now we initialise the mixins. Order matters for some!
         Administrable.__init__(self, admin)
+        # SmartPy unfortunately has a little cycle for generating metadata.
+        # The contract metadata is generated on compile, but you already must know
+        # the contract metadata at compile time to put it into storage.
+        # Is OK, we just compile twice before deploy :>.
+        # You can find the generated metadata in the compiler output.
+        ContractMetadata.__init__(self, metadata)
         Pausable.__init__(self)
         # MetaSettings must be initialised after any mixin that might use it!
         MetaSettings.__init__(self)
@@ -54,8 +65,12 @@ class Counter(
         # as lazy.
         Upgradeable.__init__(self)
 
-        # TODO: You should probably also generate some contract metadata here.
-        # (I'll add this to the ContractMetadata mixin eventually).
+        # Let's also generate some contract metadata here.
+        # You can specify a lot more than just a name and description.
+        # See the docstring for more options.
+        self.generateContractMetadata(
+            name="The little counter that could",
+            description="Count, that is.")
 
     # Now, our glorious, metasetting using, pausable, upgradeable increment ep!
     @sp.entry_point(lazify=True, parameter_type=sp.TUnit)
