@@ -62,4 +62,4 @@ def test():
     # Counter should be 6 now!
     scenario.verify(counter.data.counter == sp.nat(6))
 
-    # I'll expand this some day.
+    # I'll expand this some day. How to do upgrades and all that.
