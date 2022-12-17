@@ -25,7 +25,7 @@ class ContractMetadata:
         if isinstance(self, MetaSettings):
             self.addMetaSettings([
                 ("metadata", metadata, sp.TBigMap(sp.TString, sp.TBytes), None)
-            ], True)
+            ], top_level=True)
         else:
             self.update_initial_storage(
                 metadata = sp.set_type_expr(metadata, sp.TBigMap(sp.TString, sp.TBytes))
@@ -75,8 +75,8 @@ class ContractMetadata:
             offchain_views = []
             for f in dir(self):
                 attr = getattr(self, f)
+                # Include off/onchain views as tip 16 offchain views
                 if isinstance(attr, sp.OnOffchainView):
-                    # Include onchain views as tip 16 offchain views
                     offchain_views.append(attr)
         metadata_base["views"] = offchain_views
         self.init_metadata("metadata_base", metadata_base)
