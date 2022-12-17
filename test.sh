@@ -11,4 +11,5 @@ PYTHONPATH="./" $SMARTPY_CLI test tests/mixins/Upgradeable_tests.py test_output/
 PYTHONPATH="./" $SMARTPY_CLI test tests/mixins/WithdrawMutez_tests.py test_output/ --html
 PYTHONPATH="./" $SMARTPY_CLI test tests/tzbrc/SupportedInterfaces_tests.py test_output/ --html
 PYTHONPATH="./" $SMARTPY_CLI test tests/utils/Utils_tests.py test_output/ --html
+#PYTHONPATH="./" $SMARTPY_CLI test tests/Mutation_tests.py test_output/ --html
 PYTHONPATH="./" $SMARTPY_CLI test examples/Counter_tests.py test_output/ --html

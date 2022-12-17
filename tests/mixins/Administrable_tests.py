@@ -49,7 +49,7 @@ def test():
     scenario.h3("isAdministrator")
     # never valid
     for acc in [alice, bob, admin]:
-        administrable.testIsAdmin(bob.address).run(sender = acc, valid = False)
+        administrable.testIsAdmin(bob.address).run(sender = acc, valid = False, exception = "error")
 
     # always valid
     for acc in [alice, bob, admin]:
