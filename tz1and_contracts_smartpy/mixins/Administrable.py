@@ -16,13 +16,6 @@ class Administrable:
 
             self.get_administrator = sp.onchain_view(pure=True)(get_administrator)
 
-    def isAdministrator(self, address):
-        sp.set_type(address, sp.TAddress)
-        return self.data.administrator == address
-
-    def onlyAdministrator(self):
-        sp.verify(self.isAdministrator(sp.sender), 'ONLY_ADMIN')
-
     @sp.entry_point(parameter_type=sp.TAddress)
     def transfer_administrator(self, proposed_administrator):
         """Proposes to transfer the contract administrator to another address.
@@ -46,3 +39,10 @@ class Administrable:
 
         # Reset the proposed administrator value
         self.data.proposed_administrator = sp.none
+
+    # inline helpers
+    def isAdministrator(self, address):
+        return self.data.administrator == sp.set_type_expr(address, sp.TAddress)
+
+    def onlyAdministrator(self):
+        sp.verify(self.isAdministrator(sp.sender), 'ONLY_ADMIN')

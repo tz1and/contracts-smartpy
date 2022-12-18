@@ -65,6 +65,11 @@ class Counter(
         # as lazy.
         Upgradeable.__init__(self)
 
+        # Note for advanced users:
+        # I *suppose* you could also use super().__init__(self, **kwargs) instead of
+        # doing this (didn't try), but then you lose the option to make case-by-case
+        # decisions about for example lazy entry points and including views.
+
         # Let's also generate some contract metadata here.
         # You can specify a lot more than just a name and description.
         # See the docstring for more options.
